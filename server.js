@@ -117,18 +117,12 @@ const s3 = new AWS.S3({
 
 
 app.post("/upload", upload.array("images", 10), async (req, res) => {
-  
-  // 🔥 Immediately respond to Zoho
-  res.status(200).json({
-    success: true,
-    message: "Upload started"
-  });
-
-  // 🔥 Continue upload in background
   try {
     if (!req.files || req.files.length === 0) {
-      console.log("No files received");
-      return;
+      return res.status(400).json({
+        success: false,
+        message: "No files uploaded",
+      });
     }
 
     const uploadPromises = req.files.map((file) => {
@@ -142,12 +136,15 @@ app.post("/upload", upload.array("images", 10), async (req, res) => {
       return s3.upload(params).promise();
     });
 
-    await Promise.all(uploadPromises);
+    const results = await Promise.all(uploadPromises);
 
-    console.log("Files uploaded successfully");
+    const fileUrls = results.map((file) => file.Location);
 
-  } catch (error) {
-    console.error("Background Upload Error:", error);
+    res.status(200).json({
+      success: true,
+      messageurls: "Files uploaded successfully",
+     
+    });
   }
 });
 
