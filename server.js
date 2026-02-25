@@ -156,6 +156,13 @@ const s3 = new AWS.S3({
 // });
 app.post("/upload", upload.any(), async (req, res) => {
   try {
+
+       // 🔎 DEBUG LOGS (Temporary)
+    console.log("========== NEW REQUEST ==========");
+    console.log("FILES RECEIVED:", req.files);
+    console.log("BODY RECEIVED:", req.body);
+    console.log("=================================");
+    
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,
