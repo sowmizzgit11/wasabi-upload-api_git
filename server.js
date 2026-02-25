@@ -135,23 +135,39 @@ app.post("/upload", upload.array("images", 10), async (req, res) => {
       return s3.upload(params).promise();
     });
 
-    const results = await Promise.all(uploadPromises);
+//     const results = await Promise.all(uploadPromises);
 
-    const fileUrls = results.map((file) => file.Location);
+//     const fileUrls = results.map((file) => file.Location);
 
-    return res.status(200).json({
-      success: true,
-      message: "Files uploaded successfully",
-      urls: fileUrls,
-    });
+//     return res.status(200).json({
+//       success: true,
+//       message: "Files uploaded successfully",
+//       urls: fileUrls,
+//     });
 
-  } catch (error) {
-    console.error("Upload Error:", error);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
+//   } catch (error) {
+//     console.error("Upload Error:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// });
+const results = await Promise.all(uploadPromises);
+
+// Generate signed URLs (private bucket safe)
+const fileUrls = results.map((file) => {
+  return s3.getSignedUrl("getObject", {
+    Bucket: process.env.WASABI_BUCKET,
+    Key: file.Key,
+    Expires: 60 * 60, // 1 hour expiry
+  });
+});
+
+return res.status(200).json({
+  success: true,
+  message: "Files uploaded successfully",
+  urls: fileUrls,
 });
 
 // ==========================
