@@ -39,15 +39,27 @@ const upload = multer({
   //     cb(new Error("Only JPG, PNG, WEBP images are allowed"));
   //   }
   // },
+ 
 
-  fileFilter: (req, file, cb) => {
+//   fileFilter: (req, file, cb) => {
+//   if (file.mimetype.startsWith("image/")) {
+//     cb(null, true);
+//   } else {
+//     cb(new Error("Only image files are allowed"));
+//   }
+// },
+fileFilter: (req, file, cb) => {
+  console.log("Uploaded MIME TYPE:", file.mimetype);
+
   if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
     cb(new Error("Only image files are allowed"));
   }
 },
+
 });
+
 
 // ==========================
 // Wasabi S3 Configuration
