@@ -154,7 +154,7 @@ const s3 = new AWS.S3({
 //   }
   
 // });
-app.post("/upload", upload.array("images", 10), async (req, res) => {
+app.post("/upload", upload.any(), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
