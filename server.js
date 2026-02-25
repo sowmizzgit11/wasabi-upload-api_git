@@ -115,7 +115,6 @@ const s3 = new AWS.S3({
 //   }
 // });
 
-
 app.post("/upload", upload.array("images", 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -140,10 +139,17 @@ app.post("/upload", upload.array("images", 10), async (req, res) => {
 
     const fileUrls = results.map((file) => file.Location);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      messageurls: "Files uploaded successfully",
-     
+      message: "Files uploaded successfully",
+      urls: fileUrls,
+    });
+
+  } catch (error) {
+    console.error("Upload Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 });
