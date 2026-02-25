@@ -1,7 +1,3 @@
-app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
-});
-
 require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
