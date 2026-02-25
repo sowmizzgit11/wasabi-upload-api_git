@@ -48,15 +48,15 @@ const upload = multer({
 //     cb(new Error("Only image files are allowed"));
 //   }
 // },
-fileFilter: (req, file, cb) => {
-  console.log("Uploaded MIME TYPE:", file.mimetype);
+// fileFilter: (req, file, cb) => {
+//   console.log("Uploaded MIME TYPE:", file.mimetype);
 
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files are allowed"));
-  }
-},
+//   if (file.mimetype.startsWith("image/")) {
+//     cb(null, true);
+//   } else {
+//     cb(new Error("Only image files are allowed"));
+//   }
+// },
 
 });
 
