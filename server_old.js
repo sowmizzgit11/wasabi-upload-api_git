@@ -5,8 +5,6 @@ const cors = require("cors");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-
-
 const app = express();
 app.use(cors());
 app.use(express.json());
